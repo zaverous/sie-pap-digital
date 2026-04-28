@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Vista de lista -->
+    <record id="pap_loyalty_move_view_tree" model="ir.ui.view">
+        <field name="name">pap.loyalty.move.tree</field>
+        <field name="model">pap.loyalty.move</field>
+        <field name="arch" type="xml">
+            <tree string="Movimientos de Fidelización">
+                <field name="date"/>
+                <field name="reference"/>
+                <field name="partner_id"/>
+                <field name="move_type"/>
+                <field name="points"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Vista de formulario -->
+    <record id="pap_loyalty_move_view_form" model="ir.ui.view">
+        <field name="name">pap.loyalty.move.form</field>
+        <field name="model">pap.loyalty.move</field>
+        <field name="arch" type="xml">
+            <form string="Movimiento de Fidelización">
+                <header>
+                    <button
+                        string="Confirmar"
+                        name="action_confirm"
+                        type="object"
+                        class="btn-primary"
+                        invisible="state != 'draft'"
+                    />
+                    <button
+                        string="Cancelar"
+                        name="action_cancel"
+                        type="object"
+                        invisible="state == 'cancelled'"
+                    />
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="draft,done,cancelled"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="reference"/>
+                            <field name="partner_id"/>
+                            <field name="sale_order_id"/>
+                        </group>
+                        <group>
+                            <field name="date"/>
+                            <field name="move_type"/>
+                            <field name="points"/>
+                        </group>
+                    </group>
+                    <group string="Notas">
+                        <field name="notes" nolabel="1"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Acción de ventana -->
+    <record id="action_pap_loyalty_move" model="ir.actions.act_window">
+        <field name="name">Movimientos de Fidelización</field>
+        <field name="res_model">pap.loyalty.move</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- Menú principal -->
+    <menuitem
+        id="menu_pap_loyalty_root"
+        name="Fidelización"
+        sequence="90"
+        web_icon="pap_loyalty,static/description/icon.png"/>
+
+    <!-- Submenú -->
+    <menuitem
+        id="menu_pap_loyalty_moves"
+        name="Movimientos"
+        parent="menu_pap_loyalty_root"
+        action="action_pap_loyalty_move"
+        sequence="10"/>
+
+</odoo>
